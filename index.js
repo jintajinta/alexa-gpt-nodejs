@@ -87,25 +87,12 @@ const ErrorHandler = {
   }
 };
 
-let skill;
-
-exports.handler = async function (event, context) {
-  console.log(`REQUEST++++${JSON.stringify(event)}`);
-  if (!skill) {
-    skill = Alexa.SkillBuilders.custom()
-      .addRequestHandlers(
-        LaunchRequestHandler,
-        AskWeatherIntentHandler,
-        HelpIntentHandler,
-        CancelAndStopIntentHandler,
-        SessionEndedRequestHandler,
-      )
-      .addErrorHandlers(ErrorHandler)
-      .create();
-  }
-
-  const response = await skill.invoke(event, context);
-  console.log(`RESPONSE++++${JSON.stringify(response)}`);
-
-  return response;
-};
+exports.handler = Alexa.SkillBuilders.custom()
+  .addRequestHandlers(
+    LaunchRequestHandler,
+    AskWeatherIntentHandler,
+    HelpIntentHandler,
+    CancelAndStopIntentHandler,
+    SessionEndedRequestHandler)
+  .addErrorHandlers(ErrorHandler)
+  .lambda();
