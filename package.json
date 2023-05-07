@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ask-sdk": "^2.14.0"
+    "ask-sdk": "^2.14.0",
+    "openai": "^3.2.1"
   }
 }
