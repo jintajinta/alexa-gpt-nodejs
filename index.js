@@ -11,12 +11,12 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speechText = '開発キットの天気ボットにようこそ。天気のことは私に聞いてください。';
+        const speechText = 'chatAIに接続しました。';
 
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
-            .withSimpleCard('開発キットの天気ボットにようこそ。天気のことは私に聞いてください。', speechText)
+            .withSimpleCard('chatAIに接続しました。', speechText)
             .getResponse();
     }
 };
@@ -58,17 +58,13 @@ const ChatIntentHandler = {
     },
     async handle(handlerInput) {
         const prompt = handlerInput.requestEnvelope.request.intent.slots.TextSlot.value;
-        const speechText = prompt
         const completion = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: prompt,
-            temperature: 0.7,
-            max_tokens: 64,
-            top_p: 1.0,
-            frequency_penalty: 0.0,
-            presence_penalty: 0.0,
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
         })
         console.log(completion)
+        console.log(completion.data.choices.length)
+        const speechText = completion.data.choices[0].text
         return handlerInput.responseBuilder
             .speak(speechText)
             .withSimpleCard('AIの返答', speechText)
@@ -82,12 +78,12 @@ const HelpIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speechText = '天気のことは私に聞いてください。';
+        const speechText = 'chatAIに接続しました。';
 
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
-            .withSimpleCard('天気のことは私に聞いてください。', speechText)
+            .withSimpleCard('chatAIに接続しました。', speechText)
             .getResponse();
     }
 };
