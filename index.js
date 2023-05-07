@@ -59,8 +59,10 @@ const ChatIntentHandler = {
     async handle(handlerInput) {
         const prompt = handlerInput.requestEnvelope.request.intent.slots.TextSlot.value;
         const completion = await openai.createCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
+            model: "text-davinci-003",
+            prompt: prompt,
+            temperature: 0.6,
+            max_tokens: 500
         })
         console.log(completion)
         console.log(completion.data.choices.length)
